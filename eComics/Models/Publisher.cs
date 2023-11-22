@@ -9,5 +9,8 @@ namespace eComics.Models
         public string Logo { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        //Relationships
+        public List<Book> Books { get; set; }
     }
 }

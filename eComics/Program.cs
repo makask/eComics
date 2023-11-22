@@ -1,4 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using eComics.Data;
 var builder = WebApplication.CreateBuilder(args);
+//builder.Services.AddDbContext<eComicsContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("eComicsContext") ?? throw new InvalidOperationException("Connection string 'eComicsContext' not found.")));
+
+// DbContext configuration
+builder.Services.AddDbContext<AppDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

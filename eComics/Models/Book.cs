@@ -1,5 +1,6 @@
 ﻿using eComics.Data.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eComics.Models
 {
@@ -14,5 +15,13 @@ namespace eComics.Models
         public DateTime ReleaseDate { get; set; }
         public BookGenre BookGenre { get; set; } 
 
+        //Relationships
+        public List<Artist_Book> Artists_Books { get; set; }
+        public List<Writer_Book> Writers_Books { get; set; }
+
+        //Publisher
+        public int PublisherId { get; set; }
+        [ForeignKey("PublisherId")]
+        public Publisher Publisher { get; set; }
     }
 }
