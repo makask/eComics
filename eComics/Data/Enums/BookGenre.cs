@@ -6,6 +6,8 @@
         Adventure,
         SciFi,
         Fantasy,
-        Horror
+        Horror,
+        Historical,
+        Supernatural
     }
 }
