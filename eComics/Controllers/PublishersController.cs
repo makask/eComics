@@ -15,7 +15,7 @@ namespace eComics.Controllers
         public async Task<IActionResult> Index()
         {
             var allPublishers = await _context.Publishers.ToListAsync();
-            return View();
+            return View(allPublishers);
         }
     }
 }
