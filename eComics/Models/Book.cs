@@ -8,11 +8,17 @@ namespace eComics.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Title")]
         public string Title { get; set; }
+        [Display(Name = "Summary")]
         public string Description { get; set; }
+        [Display(Name = "Price")]
         public double Price { get; set; }
+        [Display(Name = "Cover")]
         public string ImageURL { get; set; }
+        [Display(Name = "Release date")]
         public DateTime ReleaseDate { get; set; }
+        [Display(Name = "Genre")]
         public BookGenre BookGenre { get; set; } 
 
         //Relationships

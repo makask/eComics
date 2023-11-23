@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Book>
+
+@{
+    ViewData["Title"] = "List of Comic Books";
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.ImageURL)</th>
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <img src="@item.ImageURL" alt="@item.Title" style="max-width: 100px;" />
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
