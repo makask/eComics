@@ -11,6 +11,7 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "launchUrl": "Books",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5222",
       "environmentVariables": {
@@ -20,6 +21,7 @@
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "launchUrl": "Books",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7291;http://localhost:5222",
       "environmentVariables": {
@@ -28,6 +30,7 @@
     },
     "IIS Express": {
       "commandName": "IISExpress",
+      "launchUrl": "Books",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
