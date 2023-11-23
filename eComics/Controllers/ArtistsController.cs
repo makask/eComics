@@ -14,7 +14,7 @@ namespace eComics.Controllers
         public IActionResult Index()
         {
             var data = _context.Artists.ToList();
-            return View();
+            return View(data);
         }
     }
 }
