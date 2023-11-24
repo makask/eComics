@@ -41,5 +41,25 @@ namespace eComics.Controllers
             await _service.AddAsync(publisher);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var publisherDetails = await _service.GetByIdAsync(id);
+            if (publisherDetails == null) return View("NotFound");
+            return View(publisherDetails);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id,[Bind("Id,Logo,Name,Description")] Publisher publisher)
+        {
+            if (!ModelState.IsValid) return View(publisher);
+
+            if (id == publisher.Id)
+            {
+                await _service.UpdateAsync(id, publisher);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(publisher);
+        }
     }
 }
