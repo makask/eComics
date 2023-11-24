@@ -18,5 +18,12 @@ namespace eComics.Controllers
             var allPublishers = await _service.GetAllAsync();
             return View(allPublishers);
         }
+
+        public async Task<IActionResult> Details(int id)
+        { 
+            var publisherDetails = await _service.GetByIdAsync(id);
+            if (publisherDetails == null) return View("NotFound");
+            return View(publisherDetails);
+        }
     }
 }
