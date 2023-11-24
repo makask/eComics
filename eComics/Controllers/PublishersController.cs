@@ -1,7 +1,9 @@
 ﻿using eComics.Data;
 using eComics.Data.Services;
+using eComics.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace eComics.Controllers
 {
@@ -24,6 +26,20 @@ namespace eComics.Controllers
             var publisherDetails = await _service.GetByIdAsync(id);
             if (publisherDetails == null) return View("NotFound");
             return View(publisherDetails);
+        }
+
+        public IActionResult Create()
+        { 
+            return View(); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Logo,Name,Description")] Publisher publisher)
+        { 
+            if(!ModelState.IsValid) return View(publisher);
+
+            await _service.AddAsync(publisher);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
