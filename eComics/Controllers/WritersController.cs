@@ -41,5 +41,20 @@ namespace eComics.Controllers
             if(writerDetails == null) return View("NotFound");
             return View(writerDetails);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var writerDetails = await _service.GetByIdAsync(id);
+            if (writerDetails == null) return View("NotFound");
+            return View(writerDetails);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id,[Bind("Id,ProfilePictureURL,FullName,Bio")] Writer writer)
+        {
+            if (!ModelState.IsValid) return View(writer);
+            await _service.UpdateAsync(id,writer);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
