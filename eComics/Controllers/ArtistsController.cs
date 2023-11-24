@@ -32,17 +32,35 @@ namespace eComics.Controllers
                 return View(artist);
             }
             await _service.AddAsync(artist);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Details(int id)
         {
             var artistDetails = await _service.GetByIdAsync(id);
 
-            if (artistDetails == null) return View("Empty");
+            if (artistDetails == null) return View("NotFound");
 
             return View(artistDetails);
             
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var artistDetails = await _service.GetByIdAsync(id);
+            if (artistDetails == null) return View("NotFound");
+            return View(artistDetails);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,ProfilePictureURL,Bio")] Artist artist)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(artist);
+            }
+            await _service.UpdateAsync(id, artist);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

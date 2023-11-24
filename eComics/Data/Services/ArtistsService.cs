@@ -28,15 +28,17 @@ namespace eComics.Data.Services
             return result;
         }
 
-        public async Task <Artist> GetByIdAsync(int id)
+        public async Task<Artist> GetByIdAsync(int id)
         {
             var result = await _context.Artists.FirstOrDefaultAsync(a => a.Id == id);
             return result;
         }
 
-        public Artist Update(int id, Artist newArtist)
+        public async Task <Artist> UpdateAsync(int id, Artist newArtist)
         {
-            throw new NotImplementedException();
+            _context.Update(newArtist);
+            await _context.SaveChangesAsync();
+            return newArtist;
         }
     }
 }
