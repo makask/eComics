@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Services configuration
 builder.Services.AddScoped<IArtistsService, ArtistsService>();
+builder.Services.AddScoped<IPublishersService, PublishersService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

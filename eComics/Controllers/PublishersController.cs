@@ -1,4 +1,5 @@
 ﻿using eComics.Data;
+using eComics.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,15 +7,15 @@ namespace eComics.Controllers
 {
     public class PublishersController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IPublishersService _service;
 
-        public PublishersController(AppDbContext context)
+        public PublishersController(IPublishersService service)
         {
-            _context = context;
+            _service = service;
         }
         public async Task<IActionResult> Index()
         {
-            var allPublishers = await _context.Publishers.ToListAsync();
+            var allPublishers = await _service.GetAllAsync();
             return View(allPublishers);
         }
     }

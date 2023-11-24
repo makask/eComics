@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using eComics.Data.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace eComics.Models
 {
-    public class Publisher
+    public class Publisher : IEntityBase
     {
         [Key]
         public int Id { get; set; }
