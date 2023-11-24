@@ -8,6 +8,6 @@ namespace eComics.Data.Services
         Task<Artist> GetByIdAsync(int id);
         Task AddAsync(Artist artist);
         Task<Artist> UpdateAsync(int id, Artist newArtist);
-        void Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

@@ -17,9 +17,11 @@ namespace eComics.Data.Services
             await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+            _context.Artists.Remove(result);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Artist>> GetAllAsync()

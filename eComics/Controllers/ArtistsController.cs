@@ -62,5 +62,22 @@ namespace eComics.Controllers
             await _service.UpdateAsync(id, artist);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var artistDetails = await _service.GetByIdAsync(id);
+            if (artistDetails == null) return View("NotFound");
+            return View(artistDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var artistDetails = await _service.GetByIdAsync(id);
+            if (artistDetails == null) return View("NotFound");
+
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
