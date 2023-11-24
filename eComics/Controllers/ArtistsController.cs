@@ -1,19 +1,20 @@
 ﻿using eComics.Data;
+using eComics.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eComics.Controllers
 {
     public class ArtistsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IArtistsService _service;
 
-        public ArtistsController(AppDbContext context)
+        public ArtistsController(IArtistsService service)
         {
-            _context = context;
+           _service = service;
         }
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
-            var data = _context.Artists.ToList();
+            var data = await _service.GetAll();
             return View(data);
         }
     }

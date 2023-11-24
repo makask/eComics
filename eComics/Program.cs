@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using eComics.Data;
+using eComics.Data.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddDbContext<eComicsContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("eComicsContext") ?? throw new InvalidOperationException("Connection string 'eComicsContext' not found.")));
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // DbContext configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("eComicsContext") ?? throw new InvalidOperationException("Connection string 'eTicketsContext' not found.")));
+
+// Services configuration
+builder.Services.AddScoped<IArtistsService, ArtistsService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

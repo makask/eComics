@@ -4,7 +4,7 @@ namespace eComics.Data.Services
 {
     public interface IArtistsService
     {
-        IEnumerable<Artist> GetAll();
+        Task<IEnumerable<Artist>> GetAll();
         Artist GetById(int id);
         void Add(Artist artist);
         Artist Update(int id, Artist newArtist);
