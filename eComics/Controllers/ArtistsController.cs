@@ -15,7 +15,7 @@ namespace eComics.Controllers
         }
         public async Task <IActionResult> Index()
         {
-            var data = await _service.GetAll();
+            var data = await _service.GetAllAsync();
             return View(data);
         }
 
@@ -31,8 +31,18 @@ namespace eComics.Controllers
             {
                 return View(artist);
             }
-            _service.Add(artist);
+            await _service.AddAsync(artist);
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var artistDetails = await _service.GetByIdAsync(id);
+
+            if (artistDetails == null) return View("Empty");
+
+            return View(artistDetails);
+            
         }
     }
 }
