@@ -1,5 +1,6 @@
 ﻿using eComics.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace eComics.Data.Base
 {
@@ -18,15 +19,17 @@ namespace eComics.Data.Base
         
         public async Task AddAsync(T entity) => await _context.Set<T>().AddAsync(entity);
       
-
-        public Task DeleteAsync(int id)
+        public async Task UpdateAsync(int id, T entity)
         {
-            throw new NotImplementedException();
+            EntityEntry entityEntry = _context.Entry<T>(entity);
+            entityEntry.State = EntityState.Modified;
         }
 
-        public Task<T> UpdateAsync(int id, T entity)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(a => a.Id == id);
+            EntityEntry entityEntry = _context.Entry<T>(entity);
+            entityEntry.State = EntityState.Deleted;
         }
     }
 }
