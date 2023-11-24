@@ -34,5 +34,12 @@ namespace eComics.Controllers
             await _service.AddAsync(writer);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var writerDetails = await _service.GetByIdAsync(id);
+            if(writerDetails == null) return View("NotFound");
+            return View(writerDetails);
+        }
     }
 }
