@@ -24,18 +24,6 @@ namespace eComics.Data.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Artist>> GetAllAsync()
-        {
-            var result = await _context.Artists.ToListAsync();
-            return result;
-        }
-
-        public async Task<Artist> GetByIdAsync(int id)
-        {
-            var result = await _context.Artists.FirstOrDefaultAsync(a => a.Id == id);
-            return result;
-        }
-
         public async Task <Artist> UpdateAsync(int id, Artist newArtist)
         {
             _context.Update(newArtist);
