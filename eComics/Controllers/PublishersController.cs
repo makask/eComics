@@ -61,5 +61,23 @@ namespace eComics.Controllers
             }
             return View(publisher);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var publisherDetails = await _service.GetByIdAsync(id);
+            if (publisherDetails == null) return View("NotFound");
+            return View(publisherDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var publisherDetails = await _service.GetByIdAsync(id);
+            if (publisherDetails == null) return View("NotFound");
+
+            await _service.DeleteAsync(id); 
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
