@@ -13,7 +13,8 @@ namespace eComics.Data.Services
 
         public void Add(Artist artist)
         {
-            throw new NotImplementedException();
+            _context.Artists.Add(artist);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)

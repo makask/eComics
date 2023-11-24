@@ -1,5 +1,6 @@
 ﻿using eComics.Data;
 using eComics.Data.Services;
+using eComics.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eComics.Controllers
@@ -21,6 +22,17 @@ namespace eComics.Controllers
         public IActionResult Create()
         { 
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")]Artist artist)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(artist);
+            }
+            _service.Add(artist);
+            return RedirectToAction("Index");
         }
     }
 }
