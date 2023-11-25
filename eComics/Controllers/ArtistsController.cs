@@ -1,5 +1,6 @@
 ﻿using eComics.Data;
 using eComics.Data.Services;
+using eComics.Data.ViewModels;
 using eComics.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +14,48 @@ namespace eComics.Controllers
         {
            _service = service;
         }
-        public async Task <IActionResult> Index()
+
+        public async Task<IActionResult> Index(string term = "", string orderBy= "", int currentPage = 1)
         {
-            var data = await _service.GetAllAsync();
-            return View(data);
+            var allArtists = await _service.GetAllAsync();
+
+            term = string.IsNullOrEmpty(term) ? "" : term.ToLower();
+            var artistData = new ArtistVM();
+
+            artistData.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
+
+            var artists = (from artist in allArtists
+                           where term == "" || artist.FullName.ToLower().StartsWith(term)
+                           select new Artist
+                           { 
+                               Id = artist.Id,
+                               ProfilePictureURL = artist.ProfilePictureURL,
+                               FullName = artist.FullName,
+                               Bio = artist.Bio
+                           });
+
+            switch (orderBy)
+            {
+                case "name_desc":
+                    artists = artists.OrderByDescending(a => a.FullName);
+                    break;               
+                default:
+                    artists = artists.OrderBy(a => a.FullName);
+                    break;
+            }
+            
+            int totalRecords = artists.Count();            
+            int pageSize = 6;           
+            int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);     
+            artists = artists.Skip((currentPage - 1) * pageSize).Take(pageSize);
+            artistData.Artists = artists;
+            artistData.CurrentPage = currentPage;
+            artistData.TotalPages = totalPages;
+            artistData.PageSize = pageSize;
+            artistData.Term = term;
+            artistData.OrderBy = orderBy;
+            return View(artistData);
+
         }
 
         public IActionResult Create()
