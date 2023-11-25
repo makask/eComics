@@ -67,5 +67,10 @@ namespace eComics.Controllers
             var bookDetails = await _service.GetBookByIdAsync(id);
             return View(bookDetails);
         }
+
+        public ActionResult Create()
+        {
+            return View(); 
+        }
     }
 }
