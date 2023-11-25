@@ -17,12 +17,6 @@ namespace eComics.Controllers
             _service = service;    
         }
 
-        /*public async Task<IActionResult> Index()
-        {
-            var allWriters = await _service.GetAllAsync();
-            return View(allWriters);
-        }*/
-
         public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
         {
             var allWriters = await _service.GetAllAsync();
