@@ -114,12 +114,6 @@
     </nav>
 </div>
 
-<div class="text-white" style="position: fixed; right: 25px; bottom: 100px;">
-    <a asp-controller="Books" asp-action="Create" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i>
-        Add new
-    </a>
-</div>
-
+@await Html.PartialAsync("_CreateItem","Books");
 
 
