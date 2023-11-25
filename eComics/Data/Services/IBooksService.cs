@@ -10,5 +10,7 @@ namespace eComics.Data.Services
         Task<NewBookDropdownsVM> GetNewBookDropdownsValues();
 
         Task AddNewBookAsync(NewBookVM data);
+
+        Task UpdateBookAsync(NewBookVM data);
     }
 }

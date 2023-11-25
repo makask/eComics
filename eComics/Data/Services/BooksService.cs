@@ -74,5 +74,52 @@ namespace eComics.Data.Services
             }
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateBookAsync(NewBookVM data)
+        {
+            var dbBook = await _context.Books.FirstOrDefaultAsync(b => b.Id == data.Id);
+
+            if (dbBook != null)
+            {
+                dbBook.Title = data.Title;
+                dbBook.Description = data.Description;
+                dbBook.Price = data.Price;
+                dbBook.ImageURL = data.ImageURL;
+                dbBook.ReleaseDate = data.ReleaseDate;
+                dbBook.BookGenre = data.BookGenre;
+                dbBook.PublisherId = data.PublisherId;               
+                await _context.SaveChangesAsync();
+            }
+
+            var existingArtistsDb = _context.Artists_Books.Where(n => n.BookId == data.Id).ToList();
+            _context.Artists_Books.RemoveRange(existingArtistsDb);
+            await _context.SaveChangesAsync();
+
+            var existingWritersDb = _context.Writers_Books.Where(b => b.BookId == data.Id).ToList();
+            _context.Writers_Books.RemoveRange(existingWritersDb);
+            await _context.SaveChangesAsync();
+            
+            foreach (var artistId in data.ArtistIds)
+            {
+                var newArtistBook = new Artist_Book()
+                {
+                    BookId = data.Id,
+                    ArtistId = artistId
+                };
+                await _context.Artists_Books.AddAsync(newArtistBook);
+            }
+            await _context.SaveChangesAsync();
+
+            foreach (var writerId in data.WriterIds)
+            {
+                var newWriterBook = new Writer_Book()
+                {
+                    BookId = data.Id,
+                    WriterId = writerId
+                };
+                await _context.Writers_Books.AddAsync(newWriterBook);
+            }
+            await _context.SaveChangesAsync();
+        }
     }
 }

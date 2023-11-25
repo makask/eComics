@@ -7,6 +7,8 @@ namespace eComics.Data.ViewModels
 {
     public class NewBookVM
     {
+        public int Id { get; set; }
+
         [Display(Name = "Book title")]
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }

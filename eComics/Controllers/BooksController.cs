@@ -95,5 +95,49 @@ namespace eComics.Controllers
             await _service.AddNewBookAsync(book);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Edit(int id)
+        { 
+            var bookDetails = await _service.GetBookByIdAsync(id);
+            if(bookDetails == null) return View("NotFound");
+
+            var response = new NewBookVM()
+            {
+                Id = bookDetails.Id,
+                Title = bookDetails.Title,
+                Description = bookDetails.Description,
+                Price = bookDetails.Price,
+                ReleaseDate = bookDetails.ReleaseDate,
+                ImageURL = bookDetails.ImageURL,
+                BookGenre = bookDetails.BookGenre,
+                PublisherId = bookDetails.PublisherId,
+                ArtistIds = bookDetails.Artists_Books.Select(a => a.ArtistId).ToList(),
+                WriterIds = bookDetails.Writers_Books.Select(w => w.WriterId).ToList()
+            };
+
+            var bookDropDownsData = await _service.GetNewBookDropdownsValues();
+            ViewBag.Publishers = new SelectList(bookDropDownsData.Publishers, "Id", "Name");
+            ViewBag.Artists = new SelectList(bookDropDownsData.Artists, "Id", "FullName");
+            ViewBag.Writers = new SelectList(bookDropDownsData.Writers, "Id", "FullName");
+
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, NewBookVM book)
+        {
+            if (id != book.Id) return View("NotFound");
+
+            if (!ModelState.IsValid)
+            {
+                var bookDropDownsData = await _service.GetNewBookDropdownsValues();
+                ViewBag.Publishers = new SelectList(bookDropDownsData.Publishers, "Id", "Name");
+                ViewBag.Artists = new SelectList(bookDropDownsData.Artists, "Id", "FullName");
+                ViewBag.Writers = new SelectList(bookDropDownsData.Writers, "Id", "FullName");
+                return View(book);
+            }
+            await _service.UpdateBookAsync(book);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
