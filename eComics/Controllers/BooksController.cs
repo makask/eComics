@@ -1,6 +1,7 @@
 ﻿using eComics.Data;
 using eComics.Data.Services;
 using eComics.Data.ViewModels;
+using eComics.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,54 +16,56 @@ namespace eComics.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
-            //var allBooks = await _context.Books.Include(p => p.Publisher).OrderBy(t => t.Title).ToListAsync();
+            var allBooks = await _context.Books.Include(p => p.Publisher).OrderBy(t => t.Title).ToListAsync();
             var allBooks = await _service.GetAllAsync(n => n.Publisher);
             return View(allBooks);
-        }
+        }*/
 
-        /*public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
+        public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
         {
-            var allBooks = await _service.GetAllAsync();
+            var allBooks = await _service.GetAllAsync(n => n.Publisher);
 
             term = string.IsNullOrEmpty(term) ? "" : term.ToLower();
-            var publisherData = new PublisherVM();
+            var bookData = new BookVM();
 
-            publisherData.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
+            bookData.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
 
-            var publishers = (from publisher in allPublishers
-                              where term == "" || publisher.Name.ToLower().StartsWith(term)
-                              select new Publisher
+            var books = (from book in allBooks
+                              where term == "" || book.Title.ToLower().StartsWith(term)
+                              select new Book
                               {
-                                  Id = publisher.Id,
-                                  Logo = publisher.Logo,
-                                  Name = publisher.Name,
-                                  Description = publisher.Description
+                                  Title = book.Title,
+                                  Description = book.Description,
+                                  Price = book.Price,
+                                  ImageURL = book.ImageURL,
+                                  ReleaseDate = book.ReleaseDate,
+                                  BookGenre = book.BookGenre,
+                                  Publisher = book.Publisher,
                               });
 
             switch (orderBy)
             {
                 case "name_desc":
-                    publishers = publishers.OrderByDescending(p => p.Name);
+                    books = books.OrderByDescending(p => p.Title);
                     break;
                 default:
-                    publishers = publishers.OrderBy(p => p.Name);
+                    books = books.OrderBy(p => p.Title);
                     break;
             }
 
-            int totalRecords = publishers.Count();
+            int totalRecords = books.Count();
             int pageSize = 6;
             int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
-            publishers = publishers.Skip((currentPage - 1) * pageSize).Take(pageSize);
-            publisherData.Publishers = publishers;
-            publisherData.CurrentPage = currentPage;
-            publisherData.TotalPages = totalPages;
-            publisherData.PageSize = pageSize;
-            publisherData.Term = term;
-            publisherData.OrderBy = orderBy;
-            return View(publisherData);
-
-        }*/
+            books = books.Skip((currentPage - 1) * pageSize).Take(pageSize);
+            bookData.Books = books;
+            bookData.CurrentPage = currentPage;
+            bookData.TotalPages = totalPages;
+            bookData.PageSize = pageSize;
+            bookData.Term = term;
+            bookData.OrderBy = orderBy;
+            return View(bookData);
+        }
     }
 }
