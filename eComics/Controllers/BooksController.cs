@@ -16,13 +16,6 @@ namespace eComics.Controllers
             _service = service;
         }
 
-        /*public async Task<IActionResult> Index()
-        {
-            var allBooks = await _context.Books.Include(p => p.Publisher).OrderBy(t => t.Title).ToListAsync();
-            var allBooks = await _service.GetAllAsync(n => n.Publisher);
-            return View(allBooks);
-        }*/
-
         public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
         {
             var allBooks = await _service.GetAllAsync(n => n.Publisher);
@@ -36,6 +29,7 @@ namespace eComics.Controllers
                               where term == "" || book.Title.ToLower().StartsWith(term)
                               select new Book
                               {
+                                  Id = book.Id,
                                   Title = book.Title,
                                   Description = book.Description,
                                   Price = book.Price,
@@ -66,6 +60,12 @@ namespace eComics.Controllers
             bookData.Term = term;
             bookData.OrderBy = orderBy;
             return View(bookData);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        { 
+            var bookDetails = await _service.GetBookByIdAsync(id);
+            return View(bookDetails);
         }
     }
 }

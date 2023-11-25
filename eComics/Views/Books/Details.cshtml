@@ -1,0 +1,79 @@
+﻿@model Book
+
+@{
+    ViewData["Title"] = "Book details";
+}
+
+<div class="container bcontent">
+    <h2>"@Model.Title"</h2>
+    <hr />
+    <div class="card" style="width: 1200px;">
+        <div class="row no-gutters">
+            <div class="col-sm-5">
+                <img src="@Model.ImageURL" width="100%" alt="@Model.Title">
+            </div>
+            <div class="col-sm-7">
+                <div class="card-body">
+                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text">
+                        <b>Publisher: </b>
+                        <a asp-controller="Publishers" asp-action="Details" asp-route-id="@Model.PublisherId">
+                            @Model.Publisher.Name
+                        </a>
+                    </p>
+                    <p class="card-text"><b>Category: </b>@Model.BookGenre</p>
+                    <p class="card-text"><b>Release Date: </b>@Model.ReleaseDate.ToString("dd MMM yy")</p>
+                    <p class="card-text">
+                        <b>Status: </b>
+                        @if (DateTime.Now >= Model.ReleaseDate)
+                        {
+                            <span class="badge bg-success text-white">AVAILABLE</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary text-white">UPCOMING</span>
+                        }
+                    </p>
+                    <p class="card-text">
+                        <b>Artists: </b>
+                        <hr />
+                        <div class="row">
+                            @foreach (var artist in Model.Artists_Books)
+                            {
+                                <div class="col">
+                                    <img class="border-info rounded-3" src="@artist.Artist.ProfilePictureURL" style="max-width: 150px" />
+                                    <br />
+                                    <a asp-controller="Artists" asp-action="Details" asp-route-id="@artist.ArtistId">@artist.Artist.FullName</a>
+                                </div>
+                            }
+                        </div>
+                        <b>Writers: </b>
+                        <hr />
+                        <div class="row">
+                            @foreach (var writer in Model.Writers_Books)
+                            {
+                                <div class="col">
+                                    <img class="border-info rounded-3" src="@writer.Writer.ProfilePictureURL" style="max-width: 150px" />
+                                    <br />
+                                    <a asp-controller="Writers" asp-action="Details" asp-route-id="@writer.WriterId">@writer.Writer.FullName</a>
+                                </div>
+                            }
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <div style="width: 100%;">
+                <p class="card-text">
+                   <a class="btn btn-outline-primary" style="margin: 20px;" asp-controller="Books" asp-action="Index">
+                      Back to List
+                   </a>
+                    <a class="btn btn-success text-white float-end" style="margin: 20px;">
+                      <i class="bi bi-cart-plus"></i>Add to Cart (Price @Model.Price.ToString("C"))
+                   </a>
+                   </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
