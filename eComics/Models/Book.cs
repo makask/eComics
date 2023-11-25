@@ -1,10 +1,11 @@
-﻿using eComics.Data.Enums;
+﻿using eComics.Data.Base;
+using eComics.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eComics.Models
 {
-    public class Book
+    public class Book : IEntityBase
     {
         [Key]
         public int Id { get; set; }

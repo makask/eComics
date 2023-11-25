@@ -16,12 +16,7 @@ namespace eComics.Controllers
         {
             _service = service;
         }
-        /*public async Task<IActionResult> Index()
-        {
-            var allPublishers = await _service.GetAllAsync();
-            return View(allPublishers);
-        }*/
-
+       
         public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
         {
             var allPublishers = await _service.GetAllAsync();
@@ -62,7 +57,6 @@ namespace eComics.Controllers
             publisherData.Term = term;
             publisherData.OrderBy = orderBy;
             return View(publisherData);
-
         }
 
         public async Task<IActionResult> Details(int id)
