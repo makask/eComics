@@ -1,51 +1,96 @@
-﻿@model IEnumerable<Writer>
+﻿@using eComics.Data.ViewModels;
 
-@{
-    ViewData["Title"] = "List of Writers";
-}
+@model WriterVM;
 
-<div class="row">
-    <div class="col-md-12">
+<div class="mt-2" style="width:75%">
+    <div class="row col-md-12 offset-2">
+        <h2>Writers</h2>
+        <form asp-action="Index">
+            <div class="row">
+                <div class="col-md-3">
+                    <input name="term" class="form-control" placeholder="Search writer by name" />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Search</button>
+                </div>
+            </div>
+        </form>
+        <table class="table table-striped">
 
-        <table class="table">
             <thead>
-                <tr class="text-center">
-                    <th>@Html.DisplayNameFor(model => model.ProfilePictureURL)</th>
-                    <th>@Html.DisplayNameFor(model => model.FullName)</th>
-                    <th>@Html.DisplayNameFor(model => model.Bio)</th>
+                <tr>
+                    <th>Profile Picture</th>
+                    <th>
+                        <a href="/Writers/Index?orderBy=@Model.NameSortOrder">Name</a>
+                    </th>
+                    <th>Biography</th>
                     <th>Actions</th>
-
                 </tr>
             </thead>
+
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var writer in Model.Writers)
                 {
                     <tr>
                         <td class="align-middle">
-                            <img src="@item.ProfilePictureURL" alt="@item.FullName" style="max-width: 100px;" />
+                            <img src="@writer.ProfilePictureURL" alt="@writer.FullName" style="max-width: 100px;" />
                         </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.FullName)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Bio)
-                        </td>
-                        <td class="align-middle">
-                            <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
-                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a> |
-                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a> |
+                        <td class="align-middle">@writer.FullName</td>
+                        <td class="col-md-4 align-middle">@writer.Bio</td>
+                        <td class="col-md-3 align-middle">
+                            <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@writer.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@writer.Id"><i class="bi bi-eye"></i>Details</a> |
+                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@writer.Id"><i class="bi bi-trash"></i>Delete</a> |
                         </td>
                     </tr>
                 }
             </tbody>
-        </table>
 
+        </table>
     </div>
 </div>
 
-<div class="text-white" style="position: fixed; right: 25px; bottom: 25px;">
+<div class="col-md-6 offset-6">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Writers/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@(Model.CurrentPage-1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (i == Model.CurrentPage)
+                {
+                    <li class="page-item active"><a class="page-link" href="/Writers/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="/Writers/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i">@i</a></li>
+                }
+
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Writers/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@(Model.CurrentPage+1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+<div class="text-white" style="position: fixed; right: 25px; bottom: 100px;">
     <a asp-controller="Writers" asp-action="Create" class="btn btn-success">
         <i class="bi bi-plus-circle"></i>
         Add new
     </a>
 </div>
+
+
+
