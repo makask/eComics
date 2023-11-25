@@ -8,5 +8,7 @@ namespace eComics.Data.Services
     {
         Task<Book> GetBookByIdAsync(int id);
         Task<NewBookDropdownsVM> GetNewBookDropdownsValues();
+
+        Task AddNewBookAsync(NewBookVM data);
     }
 }

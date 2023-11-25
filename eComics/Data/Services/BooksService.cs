@@ -35,5 +35,44 @@ namespace eComics.Data.Services
 
             return response;
         }
+
+        public async Task AddNewBookAsync(NewBookVM data)
+        {
+            var newBook = new Book()
+            {
+                Title = data.Title,
+                Description = data.Description,
+                Price = data.Price,
+                ImageURL = data.ImageURL,
+                ReleaseDate = data.ReleaseDate,
+                BookGenre = data.BookGenre,
+                PublisherId = data.PublisherId,
+            };
+
+            await _context.Books.AddAsync(newBook);
+            await _context.SaveChangesAsync();
+
+            foreach (var artistId in data.ArtistIds)
+            {
+                var newArtistBook = new Artist_Book()
+                {
+                    BookId = newBook.Id,
+                    ArtistId = artistId
+                };
+                await _context.Artists_Books.AddAsync(newArtistBook);
+            }
+            await _context.SaveChangesAsync();
+
+            foreach (var writerId in data.WriterIds)
+            {
+                var newWriterBook = new Writer_Book()
+                {
+                    BookId = newBook.Id,
+                    WriterId = writerId
+                };
+                await _context.Writers_Books.AddAsync(newWriterBook);
+            }
+            await _context.SaveChangesAsync();
+        }
     }
 }

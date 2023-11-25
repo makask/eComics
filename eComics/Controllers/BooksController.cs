@@ -79,5 +79,21 @@ namespace eComics.Controllers
 
             return View(); 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(NewBookVM book)
+        {
+            if (!ModelState.IsValid)
+            {
+                var bookDropDownsData = await _service.GetNewBookDropdownsValues();
+                ViewBag.Publishers = new SelectList(bookDropDownsData.Publishers, "Id", "Name");
+                ViewBag.Artists = new SelectList(bookDropDownsData.Artists, "Id", "FullName");
+                ViewBag.Writers = new SelectList(bookDropDownsData.Writers, "Id", "FullName");
+                return View(book);
+            }
+
+            await _service.AddNewBookAsync(book);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
