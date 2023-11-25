@@ -3,6 +3,7 @@ using eComics.Data.Services;
 using eComics.Data.ViewModels;
 using eComics.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace eComics.Controllers
@@ -68,8 +69,14 @@ namespace eComics.Controllers
             return View(bookDetails);
         }
 
-        public ActionResult Create()
+        public async Task <ActionResult> Create()
         {
+            var bookDropDownsData = await _service.GetNewBookDropdownsValues();
+
+            ViewBag.Publishers = new SelectList(bookDropDownsData.Publishers, "Id", "Name");
+            ViewBag.Artists = new SelectList(bookDropDownsData.Artists, "Id", "FullName");
+            ViewBag.Writers = new SelectList(bookDropDownsData.Writers, "Id", "FullName");
+
             return View(); 
         }
     }

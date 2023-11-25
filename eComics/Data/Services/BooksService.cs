@@ -1,4 +1,5 @@
 ﻿using eComics.Data.Base;
+using eComics.Data.ViewModels;
 using eComics.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,18 @@ namespace eComics.Data.Services
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             return bookDetails;
+        }
+
+        public async Task<NewBookDropdownsVM> GetNewBookDropdownsValues()
+        {
+            var response = new NewBookDropdownsVM()
+            {
+                Artists = await _context.Artists.OrderBy(n => n.FullName).ToListAsync(),
+                Writers = await _context.Writers.OrderBy(n => n.FullName).ToListAsync(),
+                Publishers = await _context.Publishers.OrderBy(n => n.Name).ToListAsync()
+            };
+
+            return response;
         }
     }
 }
