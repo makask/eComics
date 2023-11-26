@@ -27,7 +27,7 @@ namespace eComics.Controllers
             bookData.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
 
             var books = (from book in allBooks
-                              where term == "" || book.Title.ToLower().StartsWith(term)
+                              where term == "" || book.Title.ToLower().StartsWith(term) 
                               select new Book
                               {
                                   Id = book.Id,
