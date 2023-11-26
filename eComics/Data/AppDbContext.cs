@@ -41,5 +41,6 @@ namespace eComics.Data
         public DbSet<Writer_Book> Writers_Books { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems  { get; set; }
     }
 }
