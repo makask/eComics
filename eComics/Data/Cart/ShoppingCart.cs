@@ -15,6 +15,12 @@ namespace eComics.Data.Cart
             _context = context;
         }
 
+        public List<ShoppingCartItem> GetShoppingCartItems()
+        {
+            return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems.Where(n => n.ShoppingCartId ==
+                ShoppingCartId).Include(b => b.Book).ToList());
+        }
+
         public void AddItemToCart(Book book)
         {
             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Book.Id == book.Id &&
@@ -54,12 +60,6 @@ namespace eComics.Data.Cart
                 }
             }
             _context.SaveChanges();
-        }
-
-        public List<ShoppingCartItem> GetShoppingCartItems() 
-        {
-            return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems.Where(n => n.ShoppingCartId ==
-                ShoppingCartId).Include(b => b.Book).ToList());
         }
 
         public double GetShoppingCartTotal()
