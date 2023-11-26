@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using eComics.Data;
 using eComics.Data.Services;
+using eComics.Data.Cart;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddDbContext<eComicsContext>(options =>
@@ -16,6 +17,11 @@ builder.Services.AddScoped<IArtistsService, ArtistsService>();
 builder.Services.AddScoped<IPublishersService, PublishersService>();
 builder.Services.AddScoped<IWritersService, WritersService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+
+builder.Services.AddSession();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -37,6 +43,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 
