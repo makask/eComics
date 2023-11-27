@@ -1,4 +1,5 @@
 ﻿using eComics.Data;
+using eComics.Data.ViewModels;
 using eComics.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,7 @@ namespace eComics.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Login() => View(new LoginVM());
+        
     }
 }
