@@ -3,10 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using eComics.Data;
 using eComics.Data.Services;
 using eComics.Data.Cart;
+using eComics.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddDbContext<eComicsContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("eComicsContext") ?? throw new InvalidOperationException("Connection string 'eComicsContext' not found.")));
 
 // DbContext configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -22,7 +23,14 @@ builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
+// Configure authentication and authorization
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddAuthentication(options => 
+{ 
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -31,6 +39,8 @@ var app = builder.Build();
 
 //Seed database
 AppDbInitializer.Seed(app);
+//Seed users and roles
+AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -45,6 +55,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
+
+// Authentication and authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAuthorization();
 
