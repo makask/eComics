@@ -27,6 +27,7 @@ namespace eComics.Controllers
             if (!ModelState.IsValid) return View(loginVM);
 
             var user = await _userManager.FindByEmailAsync(loginVM.EmailAddress);
+
             if (user != null)
             {
                 var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
@@ -48,5 +49,7 @@ namespace eComics.Controllers
             TempData["Error"] = "Wrong credentials. Please, try again!";
             return View(loginVM);
         }
+
+        public IActionResult Register() => View(new RegisterVM());
     }
 }
