@@ -117,5 +117,59 @@ namespace eComics.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> PublishersBooks(int id, string term = "", string orderBy = "", int currentPage = 1)
+        {
+            var publisherDetails = await _service.GetPublisherByIdAsync(id);
+            //List<Book> publisherBooks = publisherDetails.Books;
+
+            term = string.IsNullOrEmpty(term) ? "" : term.ToLower();
+
+            var publishersBooksData = new PublishersBooksVM();
+
+            publishersBooksData.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
+
+            var books = (from book in publisherDetails.Books
+                         where term == "" || book.Title.ToLower().StartsWith(term)
+                         select new Book
+                         {
+                             Id = book.Id,
+                             Title = book.Title,
+                             Description = book.Description,
+                             Price = book.Price,
+                             ImageURL = book.ImageURL,
+                             ReleaseDate = book.ReleaseDate,
+                             BookGenre = book.BookGenre,
+                             Publisher = book.Publisher,
+                         });
+
+            switch (orderBy)
+            {
+                case "name_desc":
+                    books = books.OrderByDescending(p => p.Title);
+                    break;
+                default:
+                    books = books.OrderBy(p => p.Title);
+                    break;
+            }
+
+            int totalRecords = books.Count();
+            int pageSize = 6;
+            int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+            books = books.Skip((currentPage - 1) * pageSize).Take(pageSize);
+
+            publishersBooksData.Id = publisherDetails.Id;
+            publishersBooksData.PublisherName = publisherDetails.Name;
+            publishersBooksData.PublisherLogo = publisherDetails.Logo;
+            publishersBooksData.Books = books;
+            publishersBooksData.CurrentPage = currentPage;
+            publishersBooksData.TotalPages = totalPages;
+            publishersBooksData.PageSize = pageSize;
+            publishersBooksData.Term = term;
+            publishersBooksData.OrderBy = orderBy;
+
+            
+            return View(publishersBooksData);
+        }
+
     }
 }

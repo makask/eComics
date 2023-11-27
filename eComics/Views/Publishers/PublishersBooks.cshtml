@@ -1,20 +1,27 @@
 ﻿@using eComics.Data.ViewModels;
 
-@model BookVM;
-
+@model PublishersBooksVM;
+        
 <div class="mt-2" style="width:75%">
     <div class="row col-md-12 offset-2">
-        <h2>Comic Books</h2>
-        <form asp-action="Index" style="margin-bottom: 30px">
+        <form asp-action="PublishersBooks" asp-route-id="@Model.Id" style="margin-bottom: 30px">
             <div class="row">
-                <div class="col-md-3">
-                    <input name="term" class="form-control" placeholder="Search book by name" />
-                </div>
                 <div class="col-md-1">
-                    <button type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Search</button>                   
+                    <img src="@Model.PublisherLogo" style="max-width: 100px;" />
                 </div>
-                <div class="col-sm-1 text-center" style="padding-top: 5px;">
-                    <h5><a class="text-black text-center" style="text-decoration: none; margin-right: 60px;" href="/Books/Index?orderBy=@Model.NameSortOrder">Sort</a></h5>
+                <div class="col-md-9" style="margin-top: 20px;">
+                    <h2>@Model.PublisherName Books</h2>
+                    <div class="row">
+                        <div class="col-md-4">                            
+                            <input name="term" class="form-control" placeholder="Search @Model.PublisherName books" />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Search</button>
+                        </div>
+                        <div class="col-md-1" style="margin-left: -60px;">
+                            <h5><a class="text-black text-center" style="text-decoration: none; margin-right: 60px;" href="/Publishers/PublishersBooks?Id=@Model.Id&orderBy=@Model.NameSortOrder">Sort</a></h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -44,13 +51,8 @@
                         <div class="card-body">
                             <p class="card-text">@item.Description</p>
                             <p class="card-text"><b>Category: </b>@item.BookGenre</p>
-                            <p class="card-text"><b>Publisher: </b>
-                                <a asp-controller="Publishers" asp-action="PublishersBooks" asp-route-id="@item.Publisher.Id">@item.Publisher.Name</a>
-                            </p>
+                            <p class="card-text"><b>Publisher: </b><a asp-controller="Publishers" asp-action="Details" asp-route-id="@item.Publisher.Id">@item.Publisher.Name</a></p>
                             <p class="card-text"><b>Start Date: </b>@item.ReleaseDate.ToString("dd MMM yy")</p>
-
-                            
-
                             <p class="card-text">
                                 <b>Status: </b>
                                 @if (DateTime.Now >= item.ReleaseDate)
@@ -90,7 +92,7 @@
             @if (Model.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" href="/Books/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@(Model.CurrentPage-1)" aria-label="Previous">
+                    <a class="page-link" href="/Publishers/PublishersBooks?Id=@Model.Id&term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@(Model.CurrentPage-1)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -99,18 +101,18 @@
             {
                 if (i == Model.CurrentPage)
                 {
-                    <li class="page-item active"><a class="page-link" href="/Books/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i">@i</a></li>
+                    <li class="page-item active"><a class="page-link" href="/Publishers/PublishersBooks?Id=@Model.Id&term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i">@i</a></li>
                 }
                 else
                 {
-                    <li class="page-item"><a class="page-link" href="/Books/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i">@i</a></li>
+                    <li class="page-item"><a class="page-link" href="/Publishers/PublishersBooks?Id=@Model.Id&term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i">@i</a></li>
                 }
 
             }
             @if (Model.CurrentPage < Model.TotalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" href="/Books/Index?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@(Model.CurrentPage+1)" aria-label="Next">
+                    <a class="page-link" href="/Publishers/PublishersBooks?Id=@Model.Id&term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@(Model.CurrentPage+1)" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

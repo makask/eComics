@@ -5,6 +5,7 @@ namespace eComics.Data.Services
 {
     public interface IPublishersService : IEntityBaseRepository<Publisher>
     {
-
+        Task<Publisher> GetPublisherByIdAsync(int id);
+      
     }
 }
