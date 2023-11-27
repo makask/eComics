@@ -84,7 +84,7 @@
         paypal.Button.render({
             env: 'sandbox',
             client: {
-                sandbox: ''
+                    sandbox: ''
             },
             locale: 'en_US',
             style: {
@@ -104,7 +104,10 @@
                 });
             },
             onAuthorize: function (data, actions) {
-                console.log("payment executed");
+                return actions.payment.execute().then(function () {
+                    var url = '@Url.Action("CompleteOrder","Orders", new { })';
+                    window.location.href = url;
+                });
             }
 
         }, '#paypal-btn');

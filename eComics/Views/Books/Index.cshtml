@@ -47,7 +47,7 @@
                             <p class="card-text"><b>Publisher: </b>
                                 <a asp-controller="Publishers" asp-action="PublishersBooks" asp-route-id="@item.Publisher.Id">@item.Publisher.Name</a>
                             </p>
-                            <p class="card-text"><b>Start Date: </b>@item.ReleaseDate.ToString("dd MMM yy")</p>
+                            <p class="card-text"><b>Release Date: </b>@item.ReleaseDate.ToString("dd MMM yy")</p>
                             <p class="card-text">
                                 <b>Status: </b>
                                 @if (DateTime.Now >= item.ReleaseDate)
