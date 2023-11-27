@@ -49,7 +49,7 @@
                     <td colspan="2"></td>
                     <td><b>Total:</b></td>
                     <td>
-                        @Model.ShoppingCartTotal.ToString("c");
+                        @Model.ShoppingCartTotal.ToString("c")
                     </td>
                     <td></td>
                 </tr>
@@ -78,6 +78,9 @@
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
     <script>
+
+        let _total = @Html.Raw(Model.ShoppingCartTotal)
+
         paypal.Button.render({
             env: 'sandbox',
             client: {
@@ -91,7 +94,14 @@
             },
             commit: true,
             payment: function (data, actions) { 
-                console.log("payment set up");
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: _total,
+                            currency: 'EUR'
+                        }
+                    }]
+                });
             },
             onAuthorize: function (data, actions) {
                 console.log("payment executed");
