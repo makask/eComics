@@ -12,9 +12,15 @@ namespace eComics.Data.Services
             _context = context;
         }
 
-        public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
+        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
-            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Book).Where(n => n.UserId == userId).ToListAsync();
+            var orders = await _context.Orders.Include(i => i.OrderItems).ThenInclude(b => b.Book).Include(u => u.User).ToListAsync();
+
+            if (userRole != "Admin")
+            {
+                orders = orders.Where(i => i.UserId == userId).ToList();   
+            }
+
             return orders;
         }
 
