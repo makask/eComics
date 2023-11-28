@@ -1,8 +1,11 @@
 ﻿@model string;
 
-<div class="text-white" style="position: fixed; right: 25px; bottom: 100px;">
-    <a asp-controller="@Model" asp-action="Create" class="btn btn-success">
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="text-white" style="position: fixed; right: 25px; bottom: 100px;">
+        <a asp-controller="@Model" asp-action="Create" class="btn btn-success">
         <i class="bi bi-plus-circle"></i>
-        Add new
-    </a>
-</div>
+            Add new
+        </a>
+    </div>    
+}

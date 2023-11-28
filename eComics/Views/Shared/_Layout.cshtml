@@ -24,19 +24,22 @@
                             <a class="nav-link text-dark" asp-controller="Books" asp-action="Index"> <i class="badge-info bi-book"></i>Comic Books</a>
                         </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-gear"></i> Management
-                             </a>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-gear"></i> Admin
+                                </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="Publishers" asp-action="Index"><i class="bi bi-house"></i> Publishers</a>
-                                <a class="dropdown-item" asp-controller="Artists" asp-action="Index"><i class="bi bi-brush"></i> Artists</a>
-                                <a class="dropdown-item" asp-controller="Writers" asp-action="Index"><i class="bi bi-book"></i> Writers</a>
-                            </div>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Publishers" asp-action="Index"><i class="bi bi-house"></i> Publishers</a>
+                                    <a class="dropdown-item" asp-controller="Artists" asp-action="Index"><i class="bi bi-brush"></i> Artists</a>
+                                    <a class="dropdown-item" asp-controller="Writers" asp-action="Index"><i class="bi bi-book"></i> Writers</a>
+                                </div>
 
-                        </li>
+                            </li>
+                        }                       
                     </ul>
                     
                     <ul class="navbar-nav">

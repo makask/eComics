@@ -24,7 +24,10 @@
                         <a href="/Publishers/Index?orderBy=@Model.NameSortOrder">Name</a>
                     </th>
                     <th>Description</th>
-                    <th>Actions</th>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <th>Actions</th>                       
+                    }
                 </tr>
             </thead>
 
@@ -37,11 +40,14 @@
                         </td>
                         <td class="align-middle">@publisher.Name</td>
                         <td class="col-md-4 align-middle">@publisher.Description</td>
-                        <td class="col-md-3 align-middle">
-                            <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@publisher.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
-                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@publisher.Id"><i class="bi bi-eye"></i>Details</a> |
-                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@publisher.Id"><i class="bi bi-trash"></i>Delete</a> |
-                        </td>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <td class="col-md-3 align-middle">
+                                <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@publisher.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
+                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@publisher.Id"><i class="bi bi-eye"></i>Details</a> |
+                                <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@publisher.Id"><i class="bi bi-trash"></i>Delete</a> |
+                            </td>                           
+                        }
                     </tr>
                 }
             </tbody>
