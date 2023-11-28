@@ -1,5 +1,6 @@
 ﻿using eComics.Data;
 using eComics.Data.Services;
+using eComics.Data.Static;
 using eComics.Data.ViewModels;
 using eComics.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eComics.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = UserRoles.Admin)]
     public class ArtistsController : Controller
     {
         private readonly IArtistsService _service;

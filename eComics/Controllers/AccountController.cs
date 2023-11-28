@@ -92,5 +92,10 @@ namespace eComics.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Books");
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();   
+        }
     }
 }

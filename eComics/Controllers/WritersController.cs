@@ -1,5 +1,6 @@
 ﻿using eComics.Data;
 using eComics.Data.Services;
+using eComics.Data.Static;
 using eComics.Data.ViewModels;
 using eComics.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eComics.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = UserRoles.Admin)]
     public class WritersController : Controller
     {
         private readonly IWritersService _service;

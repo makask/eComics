@@ -1,5 +1,6 @@
 ﻿using eComics.Data.Cart;
 using eComics.Data.Services;
+using eComics.Data.Static;
 using eComics.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
