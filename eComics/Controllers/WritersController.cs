@@ -2,12 +2,14 @@
 using eComics.Data.Services;
 using eComics.Data.ViewModels;
 using eComics.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 
 namespace eComics.Controllers
 {
+    [Authorize]
     public class WritersController : Controller
     {
         private readonly IWritersService _service;
@@ -17,6 +19,7 @@ namespace eComics.Controllers
             _service = service;    
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
         {
             var allWriters = await _service.GetAllAsync();
@@ -73,6 +76,7 @@ namespace eComics.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var writerDetails = await _service.GetByIdAsync(id);

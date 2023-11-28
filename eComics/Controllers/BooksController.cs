@@ -2,12 +2,14 @@
 using eComics.Data.Services;
 using eComics.Data.ViewModels;
 using eComics.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace eComics.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly IBooksService _service;
@@ -17,6 +19,7 @@ namespace eComics.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
         {
             var allBooks = await _service.GetAllAsync(n => n.Publisher);
@@ -63,6 +66,7 @@ namespace eComics.Controllers
             return View(bookData);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         { 
             var bookDetails = await _service.GetBookByIdAsync(id);

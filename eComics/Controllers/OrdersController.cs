@@ -1,11 +1,13 @@
 ﻿using eComics.Data.Cart;
 using eComics.Data.Services;
 using eComics.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace eComics.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IBooksService _booksService;
