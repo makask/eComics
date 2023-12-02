@@ -1,5 +1,5 @@
-﻿using eComics.Data.Base;
-using eComics.Data.Enums;
+﻿using eComics.Data.Enums;
+using eComics.Data.Repositories.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

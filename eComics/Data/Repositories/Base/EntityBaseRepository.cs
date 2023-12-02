@@ -1,4 +1,5 @@
-﻿using eComics.Models;
+﻿using eComics.Data.Repositories.Base;
+using eComics.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
@@ -7,11 +8,12 @@ namespace eComics.Data.Base
 {
     public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
-        private readonly AppDbContext _context;
+        //private readonly AppDbContext _context;
+        protected AppDbContext _context;
 
         public EntityBaseRepository(AppDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
@@ -23,14 +25,14 @@ namespace eComics.Data.Base
             return await query.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id) => await _context.Set<T>().FirstOrDefaultAsync(a => a.Id == id);
+        public virtual async Task<T> GetByIdAsync(int id) => await _context.Set<T>().FirstOrDefaultAsync(a => a.Id == id);
 
         public async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
             await _context.SaveChangesAsync();
-        } 
-      
+        }
+
         public async Task UpdateAsync(int id, T entity)
         {
             EntityEntry entityEntry = _context.Entry<T>(entity);
@@ -46,6 +48,6 @@ namespace eComics.Data.Base
             await _context.SaveChangesAsync();
         }
 
-        
+
     }
 }

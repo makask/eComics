@@ -6,6 +6,7 @@ using eComics.Data.Cart;
 using eComics.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using eComics.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddScoped<IPublishersService, PublishersService>();
 builder.Services.AddScoped<IWritersService, WritersService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
+builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));

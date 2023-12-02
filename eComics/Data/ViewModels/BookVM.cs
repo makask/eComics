@@ -5,6 +5,7 @@ namespace eComics.Data.ViewModels
     public class BookVM
     {
         public IEnumerable<Book> Books { get; set; }
+        
         public string NameSortOrder { get; set; }
 
         public int PageSize { get; set; }

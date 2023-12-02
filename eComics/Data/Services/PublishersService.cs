@@ -1,4 +1,5 @@
 ﻿using eComics.Data.Base;
+using eComics.Data.Repositories.Base;
 using eComics.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,8 +7,8 @@ namespace eComics.Data.Services
 {
     public class PublishersService: EntityBaseRepository<Publisher>, IPublishersService
     {
-        AppDbContext _context;
-        
+        private readonly new AppDbContext _context;
+
         public PublishersService(AppDbContext context) : base(context) 
         { 
             _context = context;

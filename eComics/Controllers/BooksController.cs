@@ -23,7 +23,7 @@ namespace eComics.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(string term = "", string orderBy = "", int currentPage = 1)
         {
-            var allBooks = await _service.GetAllAsync(n => n.Publisher);
+            var allBooks = await _service.GetBooksWithPublishersAsync();
 
             term = string.IsNullOrEmpty(term) ? "" : term.ToLower();
             var bookData = new BookVM();
@@ -31,18 +31,18 @@ namespace eComics.Controllers
             bookData.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
 
             var books = (from book in allBooks
-                              where term == "" || book.Title.ToLower().StartsWith(term) 
-                              select new Book
-                              {
-                                  Id = book.Id,
-                                  Title = book.Title,
-                                  Description = book.Description,
-                                  Price = book.Price,
-                                  ImageURL = book.ImageURL,
-                                  ReleaseDate = book.ReleaseDate,
-                                  BookGenre = book.BookGenre,
-                                  Publisher = book.Publisher,
-                              });
+                         where term == "" || book.Title.ToLower().StartsWith(term)
+                         select new Book
+                         {
+                             Id = book.Id,
+                             Title = book.Title,
+                             Description = book.Description,
+                             Price = book.Price,
+                             ImageURL = book.ImageURL,
+                             ReleaseDate = book.ReleaseDate,
+                             BookGenre = book.BookGenre,
+                             Publisher = book.Publisher,
+                         });
 
             switch (orderBy)
             {
@@ -69,12 +69,12 @@ namespace eComics.Controllers
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
-        { 
-            var bookDetails = await _service.GetBookByIdAsync(id);
+        {
+            var bookDetails = await _service.GetByIdAsync(id);
             return View(bookDetails);
         }
 
-        public async Task <ActionResult> Create()
+        public async Task<ActionResult> Create()
         {
             var bookDropDownsData = await _service.GetNewBookDropdownsValues();
 
@@ -82,7 +82,7 @@ namespace eComics.Controllers
             ViewBag.Artists = new SelectList(bookDropDownsData.Artists, "Id", "FullName");
             ViewBag.Writers = new SelectList(bookDropDownsData.Writers, "Id", "FullName");
 
-            return View(); 
+            return View();
         }
 
         [HttpPost]
@@ -102,9 +102,9 @@ namespace eComics.Controllers
         }
 
         public async Task<IActionResult> Edit(int id)
-        { 
-            var bookDetails = await _service.GetBookByIdAsync(id);
-            if(bookDetails == null) return View("NotFound");
+        {
+            var bookDetails = await _service.GetByIdAsync(id);
+            if (bookDetails == null) return View("NotFound");
 
             var response = new NewBookVM()
             {

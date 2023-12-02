@@ -1,4 +1,5 @@
-﻿using eComics.Models;
+﻿using eComics.Data.Repositories.Base;
+using eComics.Models;
 using System.Linq.Expressions;
 
 namespace eComics.Data.Base

@@ -31,14 +31,14 @@ namespace eComics.Controllers
             publisherData.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
 
             var publishers = (from publisher in allPublishers
-                           where term == "" || publisher.Name.ToLower().StartsWith(term)
-                           select new Publisher
-                           {
-                               Id = publisher.Id,
-                               Logo = publisher.Logo,
-                               Name = publisher.Name,
-                               Description = publisher.Description
-                           });
+                              where term == "" || publisher.Name.ToLower().StartsWith(term)
+                              select new Publisher
+                              {
+                                  Id = publisher.Id,
+                                  Logo = publisher.Logo,
+                                  Name = publisher.Name,
+                                  Description = publisher.Description
+                              });
 
             switch (orderBy)
             {
@@ -65,21 +65,21 @@ namespace eComics.Controllers
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
-        { 
+        {
             var publisherDetails = await _service.GetByIdAsync(id);
             if (publisherDetails == null) return View("NotFound");
             return View(publisherDetails);
         }
 
         public IActionResult Create()
-        { 
-            return View(); 
+        {
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Logo,Name,Description")] Publisher publisher)
-        { 
-            if(!ModelState.IsValid) return View(publisher);
+        {
+            if (!ModelState.IsValid) return View(publisher);
 
             await _service.AddAsync(publisher);
             return RedirectToAction(nameof(Index));
@@ -93,7 +93,7 @@ namespace eComics.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,Logo,Name,Description")] Publisher publisher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Logo,Name,Description")] Publisher publisher)
         {
             if (!ModelState.IsValid) return View(publisher);
 
@@ -118,7 +118,7 @@ namespace eComics.Controllers
             var publisherDetails = await _service.GetByIdAsync(id);
             if (publisherDetails == null) return View("NotFound");
 
-            await _service.DeleteAsync(id); 
+            await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -173,7 +173,7 @@ namespace eComics.Controllers
             publishersBooksData.Term = term;
             publishersBooksData.OrderBy = orderBy;
 
-            
+
             return View(publishersBooksData);
         }
 

@@ -46,7 +46,7 @@ namespace eComics.Controllers
 
         public async Task<IActionResult> AddItemToShoppingCart(int id)
         {
-            var item = await _booksService.GetBookByIdAsync(id);
+            var item = await _booksService.GetByIdAsync(id);
 
             if (item != null) 
             { 
@@ -57,7 +57,7 @@ namespace eComics.Controllers
 
         public async Task<IActionResult> RemoveItemFromShoppingCart(int id)
         {
-            var item = await _booksService.GetBookByIdAsync(id);
+            var item = await _booksService.GetByIdAsync(id);
 
             if (item != null)
             {

@@ -1,4 +1,4 @@
-﻿namespace eComics.Data.Base
+﻿namespace eComics.Data.Repositories.Base
 {
     public interface IEntityBase
     {
