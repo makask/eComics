@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 namespace eComics.Data.Repositories
 {
     public interface IArtistsRepository : IEntityBaseRepository<Artist>
-    {
-        
+    {        
     }
 }
