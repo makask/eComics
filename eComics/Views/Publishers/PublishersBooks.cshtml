@@ -41,7 +41,7 @@
                                     @item.Title
                                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                     {
-                                        <a class="text-white float-end" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>                                       
+                                        <a class="text-white float-end" asp-controller="Books" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>                                       
                                     }
                                 </h5>
                             </p>

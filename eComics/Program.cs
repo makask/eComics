@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // DbContext configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("eComicsContext") ?? throw new InvalidOperationException("Connection string 'eTicketsContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("eComicsContext") ?? throw new InvalidOperationException("Connection string 'eComicsContext' not found.")));
 
 // Services configuration
 builder.Services.AddScoped<IArtistsService, ArtistsService>();
@@ -23,6 +23,7 @@ builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
 builder.Services.AddScoped<IWritersRepository, WritersRepository>();
+builder.Services.AddScoped<IPublishersRepository, PublishersRepository>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));

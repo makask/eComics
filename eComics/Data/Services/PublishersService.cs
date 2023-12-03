@@ -1,23 +1,42 @@
 ﻿using eComics.Data.Base;
+using eComics.Data.Repositories;
 using eComics.Data.Repositories.Base;
 using eComics.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace eComics.Data.Services
 {
-    public class PublishersService: EntityBaseRepository<Publisher>, IPublishersService
+    public class PublishersService : IPublishersService
     {
-        private readonly new AppDbContext _context;
-
-        public PublishersService(AppDbContext context) : base(context) 
+        private readonly IPublishersRepository _repository;
+        public PublishersService(IPublishersRepository repository) 
         { 
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<Publisher> GetPublisherByIdAsync(int id)
+        public async Task AddAsync(Publisher entity)
         {
-            var result = await _context.Publishers.Include(b => b.Books).FirstOrDefaultAsync(i => i.Id == id);
-            return result;
+            await _repository.AddAsync(entity); 
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
+        }
+
+        public async Task<IEnumerable<Publisher>> GetAllAsync()
+        {
+            return await _repository.GetAllAsync();
+        }
+
+        public async Task<Publisher> GetByIdAsync(int id)
+        {
+            return await _repository.GetByIdAsync(id);
+        }
+
+        public async Task UpdateAsync(int id, Publisher entity)
+        {
+            await _repository.UpdateAsync(id, entity);
         }
     }
 }

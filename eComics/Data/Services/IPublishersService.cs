@@ -4,9 +4,12 @@ using eComics.Models;
 
 namespace eComics.Data.Services
 {
-    public interface IPublishersService : IEntityBaseRepository<Publisher>
+    public interface IPublishersService 
     {
-        Task<Publisher> GetPublisherByIdAsync(int id);
-      
+        Task<IEnumerable<Publisher>> GetAllAsync();
+        Task<Publisher> GetByIdAsync(int id);
+        Task AddAsync(Publisher entity);
+        Task UpdateAsync(int id, Publisher entity);
+        Task DeleteAsync(int id);
     }
 }

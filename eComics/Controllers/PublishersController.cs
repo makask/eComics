@@ -125,9 +125,9 @@ namespace eComics.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> PublishersBooks(int id, string term = "", string orderBy = "", int currentPage = 1)
         {
-            var publisherDetails = await _service.GetPublisherByIdAsync(id);
-            //List<Book> publisherBooks = publisherDetails.Books;
-
+            
+            var publisherDetails = await _service.GetByIdAsync(id);
+            
             term = string.IsNullOrEmpty(term) ? "" : term.ToLower();
 
             var publishersBooksData = new PublishersBooksVM();
