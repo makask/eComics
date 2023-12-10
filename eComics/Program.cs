@@ -24,6 +24,7 @@ builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
 builder.Services.AddScoped<IWritersRepository, WritersRepository>();
 builder.Services.AddScoped<IPublishersRepository, PublishersRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));

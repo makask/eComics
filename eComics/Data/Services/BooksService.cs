@@ -8,7 +8,7 @@ namespace eComics.Data.Services
 {
     public class BooksService : IBooksService
     {
-
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IBooksRepository _repository;
         public BooksService(IBooksRepository repository) 
         {
@@ -27,7 +27,7 @@ namespace eComics.Data.Services
 
         public async Task AddNewBookAsync(NewBookVM data)
         {
-            await _repository.AddNewBookAsync(data);
+                await _repository.AddNewBookAsync(data);  
         }
 
         public async Task UpdateBookAsync(NewBookVM data)
