@@ -79,14 +79,18 @@ namespace eComics.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            var artistDetails = await _service.GetByIdAsync(id);
+            if (id == null) 
+            {
+                return NotFound();
+            }
+
+            var artistDetails = await _service.GetByIdAsync(id.Value);
 
             if (artistDetails == null) return View("NotFound");
 
-            return View(artistDetails);
-            
+            return View(artistDetails);   
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -123,5 +127,6 @@ namespace eComics.Controllers
             await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

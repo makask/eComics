@@ -30,5 +30,6 @@ namespace eComics.Models
         public int PublisherId { get; set; }
         [ForeignKey("PublisherId")]
         public Publisher Publisher { get; set; }
+
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.ContentModel;
 
 namespace eComics.Controllers
 {
@@ -71,6 +72,9 @@ namespace eComics.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var bookDetails = await _service.GetByIdAsync(id);
+            if (bookDetails == null) {
+                return NotFound();
+            }
             return View(bookDetails);
         }
 
@@ -144,5 +148,6 @@ namespace eComics.Controllers
             await _service.UpdateBookAsync(book);
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

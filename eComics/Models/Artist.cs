@@ -1,4 +1,5 @@
 ﻿using eComics.Data.Repositories.Base;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 namespace eComics.Models
