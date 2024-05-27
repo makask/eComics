@@ -7,6 +7,13 @@ using eComics.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using eComics.Data.Repositories;
+using eComics.Integrations.OpenMeteo;
+using eComics.Services;
+using eComics.Integrations;
+using eComics.Integrations.YrNoClient;
+
+//var yrNoClient = new YrNoClient();
+//return;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +32,9 @@ builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
 builder.Services.AddScoped<IWritersRepository, WritersRepository>();
 builder.Services.AddScoped<IPublishersRepository, PublishersRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IWeatherClient,OpenMeteoClient>();
+builder.Services.AddScoped<IWeatherService, WeatherService>();
+//builder.Services.AddScoped<IWeatherClient, YrNoClient>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
